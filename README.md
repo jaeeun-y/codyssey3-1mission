@@ -2,6 +2,14 @@
 https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/create-vpc.html#create-vpc-cli
 
 
+- 최소권한법칙
+
+
+<img width="1470" height="956" alt="스크린샷 2026-09-19 오전 5 14 43" src="https://github.com/user-attachments/assets/bef6d276-d9f3-4870-9597-f6724bb09e7c" />
+
+<img width="742" height="78" alt="스크린샷 2026-09-19 오전 5 22 47" src="https://github.com/user-attachments/assets/3342e111-bcf3-4822-b179-173370ea5eb3" />
+
+
 ```
 
 # 1. VPC 생성 (10.0.0.0/16 대역)
@@ -89,6 +97,8 @@ Commercial support is available at
 </body>
 </html>
 ```
+
+
 
 <img width="734" height="433" alt="스크린샷 2026-09-19 오전 12 55 05" src="https://github.com/user-attachments/assets/09b36d23-07b8-43ae-b566-26a38bf7fd03" />  
 
