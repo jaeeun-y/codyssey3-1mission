@@ -10,31 +10,44 @@ vpc-0c20d57a2ed9c9ea1
 
 
 # 2. Public Subnet 생성 (VPC 범위 내인 10.0.1.0/24 대역)
-aws ec2 create-subnet --vpc-id <VPC_ID> --cidr-block 10.0.1.0/24 --query Subnet.SubnetId --output text
+aws ec2 create-subnet --vpc-id vpc-0c20d57a2ed9c9ea1 --cidr-block 10.0.1.0/24 --query Subnet.SubnetId --output text
+subnet-06320370147d23e9f
 
 
 # 3. 서브넷 퍼블릭 IP 자동 할당 설정
-aws ec2 modify-subnet-attribute --subnet-id <SUBNET_ID> --map-public-ip-on-launch
+aws ec2 modify-subnet-attribute --subnet-id subnet-06320370147d23e9f --map-public-ip-on-launch
 
 
 # 4. 인터넷 게이트웨이 생성
 aws ec2 create-internet-gateway --query InternetGateway.InternetGatewayId --output text
+igw-0e7457dcd6af97068
 
 
 # 5. 인터넷 게이트웨이를 VPC에 연결
-aws ec2 attach-internet-gateway --vpc-id <VPC_ID> --internet-gateway-id <IGW_ID>
+aws ec2 attach-internet-gateway --vpc-id vpc-0c20d57a2ed9c9ea1 --internet-gateway-id igw-0e7457dcd6af97068
 
 
 # 6. 퍼블릭 라우팅 테이블 생성
-aws ec2 create-route-table --vpc-id <VPC_ID> --query RouteTable.RouteTableId --output text
+aws ec2 create-route-table --vpc-id vpc-0c20d57a2ed9c9ea1 --query RouteTable.RouteTableId --output text
+rtb-049931ff7dec68685
 
 
 # 7. 인터넷으로 나가는 경로(0.0.0.0/0) 추가
-aws ec2 create-route --route-table-id <ROUTE_TABLE_ID> --destination-cidr-block 0.0.0.0/0 --gateway-id <IGW_ID>
+aws ec2 create-route --route-table-id rtb-049931ff7dec68685 --destination-cidr-block 0.0.0.0/0 --gateway-id igw-0e7457dcd6af97068
+{
+    "Return": true
+}
 
 
 # 8. 라우팅 테이블을 퍼블릭 서브넷과 연결
-aws ec2 associate-route-table --route-table-id <ROUTE_TABLE_ID> --subnet-id <SUBNET_ID>
+aws ec2 associate-route-table --route-table-id rtb-049931ff7dec68685 --subnet-id subnet-06320370147d23e9f
+{
+    "AssociationId": "rtbassoc-02674df1415d1b634",
+    "AssociationState": {
+        "State": "associated"
+    }
+}
+
 
 ```
 
