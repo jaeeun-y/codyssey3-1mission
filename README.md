@@ -47,6 +47,7 @@ Commercial support is available at
 
 <img width="844" height="623" alt="스크린샷 2026-09-19 오전 12 58 02" src="https://github.com/user-attachments/assets/deabb1d6-4d58-4c59-b8be-68380c6d338c" />  
 
+(A) 브라우저로 http://<퍼블릭IP> 접속   
 http://3.34.191.0
 
 
