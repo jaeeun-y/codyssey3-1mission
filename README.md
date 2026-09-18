@@ -2,15 +2,17 @@
 https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/create-vpc.html#create-vpc-cli
 
 
-- 최소권한법칙
 
+- 최소권한법칙
 
 <img width="1470" height="956" alt="스크린샷 2026-09-19 오전 5 14 43" src="https://github.com/user-attachments/assets/bef6d276-d9f3-4870-9597-f6724bb09e7c" />
 
 <img width="742" height="78" alt="스크린샷 2026-09-19 오전 5 22 47" src="https://github.com/user-attachments/assets/3342e111-bcf3-4822-b179-173370ea5eb3" />
 
 
+
 ```
+
 
 # 1. VPC 생성 (10.0.0.0/16 대역)
 aws ec2 create-vpc --cidr-block 10.0.0.0/16 --query Vpc.VpcId --output text
@@ -58,6 +60,82 @@ aws ec2 associate-route-table --route-table-id rtb-049931ff7dec68685 --subnet-id
 
 
 ```
+
+
+
+```
+
+
+MY_IP=$(curl -s https://checkip.amazonaws.com)
+echo "내 공인 IP: $MY_IP"
+내 공인 IP: 121.135.181.35
+
+
+VCP_ID="vpc-0c20d57a2ed9c9ea1"
+
+
+# 보안 그룹 생성 및 ID 저장
+SG_ID=$(aws ec2 create-security-group --group-name new-sg --description "Security group for web server" --vpc-id $VPC_ID --query GroupId --output text)
+echo "생성된 보안 그룹 ID: $SG_ID"
+생성된 보안 그룹 ID: sg-0717498e423f9232f
+
+
+# 1) HTTP (80) - 0.0.0.0/0 전체 허용
+aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 80 --cidr 0.0.0.0/0
+
+
+# 2) SSH (22) - 본인 IP만 허용
+aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 22 --cidr ${MY_IP}/32
+
+```
+
+
+
+```
+
+# ED25519 키 페어 생성
+aws ec2 create-key-pair --key-name ec2-key --key-type ed25519 --query 'KeyMaterial' --output text > ec2-key.pem
+
+
+# Mac 키 파일 접근 권한 변경 (필수)
+chmod 400 ec2-key.pem
+
+
+# Subnet ID 입력 (예: subnet-0123456789abcdef0)
+SUBNET_ID="subnet-06320370147d23e9f"
+
+
+# Ubuntu 22.04 LTS 최신 AMI ID 자동 가져오기
+AMI_ID=$(aws ssm get-parameters --names /aws/service/canonical/ubuntu/server/22.04/stable/current/amd64/hvm/ebs-gp2/ami-id --query "Parameters[0].Value" --output text)
+
+
+# EC2 인스턴스 시작
+INSTANCE_ID=$(aws ec2 run-instances \
+  --image-id $AMI_ID \
+  --instance-type t3.micro \
+  --key-name ec2-key \
+  --security-group-ids $SG_ID \
+  --subnet-id $SUBNET_ID \
+  --associate-public-ip-address \
+  --tag-specifications 'ResourceType=instance,Tags=[{Key=Name,Value=my-web-server}]' \
+  --query 'Instances[0].InstanceId' --output text)
+
+echo "생성된 EC2 인스턴스 ID: $INSTANCE_ID"
+
+
+# EC2 인스턴스가 running 상태가 될 때까지 10~20초 대기 후 실행
+PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
+
+echo "EC2 퍼블릭 IP: $PUBLIC_IP"
+
+
+# SSH 접속 (터미널에서 입력)
+ssh -i ec2-key.pem ubuntu@$PUBLIC_IP
+
+
+```
+
+
 
 
 ____
