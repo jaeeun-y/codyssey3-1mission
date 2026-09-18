@@ -2,42 +2,32 @@
 https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/create-vpc.html#create-vpc-cli
 
 
-- AWS CLI Download
-
-```
-curl -fsSL https://awscli.amazonaws.com/v2/install.sh | bash
 ```
 
-- 지정된 IPv4 CIDR 블록으로 VPC를 생성
-```
-aws ec2 create-vpc --cidr-block 10.0.0.0/24 --query Vpc.VpcId --output text
-```
+# 1. VPC 생성 (10.0.0.0/16 대역)
+aws ec2 create-vpc --cidr-block 10.0.0.0/16 --query Vpc.VpcId --output text
 
-- 특정 IPv4 CIDR 블록으로 서브넷을 생성
-```
-aws ec2 create-subnet --vpc-id vpc-1a2b3c4d5e6f1a2b3 --cidr-block 10.0.1.0/20 --availability-zone us-east-2a --query Subnet.SubnetId --output text
-```
+# 2. Public Subnet 생성 (VPC 범위 내인 10.0.1.0/24 대역)
+aws ec2 create-subnet --vpc-id <VPC_ID> --cidr-block 10.0.1.0/24 --query Subnet.SubnetId --output text
 
-- 인터넷 게이트웨이 생성 후 VPC에 연결
-```
+# 3. 서브넷 퍼블릭 IP 자동 할당 설정
+aws ec2 modify-subnet-attribute --subnet-id <SUBNET_ID> --map-public-ip-on-launch
+
+# 4. 인터넷 게이트웨이 생성
 aws ec2 create-internet-gateway --query InternetGateway.InternetGatewayId --output text
 
-aws ec2 attach-internet-gateway --vpc-id vpc-1a2b3c4d5e6f1a2b3 --internet-gateway-id igw-id
-```
+# 5. 인터넷 게이트웨이를 VPC에 연결
+aws ec2 attach-internet-gateway --vpc-id <VPC_ID> --internet-gateway-id <IGW_ID>
 
-- 퍼블릭 서브넷에 대한 사용자 지정 라우팅 테이블을 생성
-```
-aws ec2 create-route-table --vpc-id vpc-1a2b3c4d5e6f1a2b3 --query RouteTable.RouteTableId --output text
-```
+# 6. 퍼블릭 라우팅 테이블 생성
+aws ec2 create-route-table --vpc-id <VPC_ID> --query RouteTable.RouteTableId --output text
 
-- 모든 IPv4 트래픽을 인터넷 게이트웨이로 보내는 라우팅 테이블의 경로를 생성
-```
-aws ec2 create-route --route-table-id rtb-id-public --destination-cidr-block 0.0.0.0/0 --gateway-id igw-id
-```
+# 7. 인터넷으로 나가는 경로(0.0.0.0/0) 추가
+aws ec2 create-route --route-table-id <ROUTE_TABLE_ID> --destination-cidr-block 0.0.0.0/0 --gateway-id <IGW_ID>
 
-- 라우팅 테이블을 퍼블릭 서브넷과 연결
-```
-aws ec2 associate-route-table --route-table-id rtb-id-public --subnet-id subnet-id-public-subnet
+# 8. 라우팅 테이블을 퍼블릭 서브넷과 연결
+aws ec2 associate-route-table --route-table-id <ROUTE_TABLE_ID> --subnet-id <SUBNET_ID>
+
 ```
 
 
