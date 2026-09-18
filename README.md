@@ -1,5 +1,47 @@
 # codyssey3-1mission
+https://docs.aws.amazon.com/ko_kr/vpc/latest/userguide/create-vpc.html#create-vpc-cli
 
+
+- AWS CLI Download
+
+```
+curl -fsSL https://awscli.amazonaws.com/v2/install.sh | bash
+```
+
+- 지정된 IPv4 CIDR 블록으로 VPC를 생성
+```
+aws ec2 create-vpc --cidr-block 10.0.0.0/24 --query Vpc.VpcId --output text
+```
+
+- 특정 IPv4 CIDR 블록으로 서브넷을 생성
+```
+aws ec2 create-subnet --vpc-id vpc-1a2b3c4d5e6f1a2b3 --cidr-block 10.0.1.0/20 --availability-zone us-east-2a --query Subnet.SubnetId --output text
+```
+
+- 인터넷 게이트웨이 생성 후 VPC에 연결
+```
+aws ec2 create-internet-gateway --query InternetGateway.InternetGatewayId --output text
+
+aws ec2 attach-internet-gateway --vpc-id vpc-1a2b3c4d5e6f1a2b3 --internet-gateway-id igw-id
+```
+
+- 퍼블릭 서브넷에 대한 사용자 지정 라우팅 테이블을 생성
+```
+aws ec2 create-route-table --vpc-id vpc-1a2b3c4d5e6f1a2b3 --query RouteTable.RouteTableId --output text
+```
+
+- 모든 IPv4 트래픽을 인터넷 게이트웨이로 보내는 라우팅 테이블의 경로를 생성
+```
+aws ec2 create-route --route-table-id rtb-id-public --destination-cidr-block 0.0.0.0/0 --gateway-id igw-id
+```
+
+- 라우팅 테이블을 퍼블릭 서브넷과 연결
+```
+aws ec2 associate-route-table --route-table-id rtb-id-public --subnet-id subnet-id-public-subnet
+```
+
+
+____
 
 https://app.diagrams.net/  
   
