@@ -137,6 +137,28 @@ ssh -i ec2-key.pem ubuntu@$PUBLIC_IP
 
 
 
+```
+
+
+# 패키지 업데이트 및 Nginx 설치
+sudo apt update -y
+sudo apt install nginx -y
+
+# Nginx 실행 및 자동 시작 등록
+sudo systemctl start nginx
+sudo systemctl enable nginx
+
+# [과제 요구사항 검증 1] EC2 내부 로컬 접속 확인 (200 응답 확인)
+curl -I http://localhost
+
+# [과제 요구사항 검증 2] 외부 아웃바운드 인터넷 통신 확인
+curl -I https://example.com
+
+
+```
+
+
+
 
 ____
 
