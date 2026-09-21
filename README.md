@@ -82,15 +82,51 @@ echo "생성된 보안 그룹 ID: $SG_ID"
 
 # 1) HTTP (80) - 0.0.0.0/0 전체 허용
 aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 80 --cidr 0.0.0.0/0
+{
+    "Return": true,
+    "SecurityGroupRules": [
+        {
+            "SecurityGroupRuleId": "sgr-058b7ca765ed357b4",
+            "GroupId": "sg-0717498e423f9232f",
+            "GroupOwnerId": "018272776176",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 80,
+            "ToPort": 80,
+            "CidrIpv4": "0.0.0.0/0",
+            "SecurityGroupRuleArn": "arn:aws:ec2:ap-northeast-2:018272776176:security-group-rule/sgr-058b7ca765ed357b4"
+        }
+    ]
+}
 
 
 # 2) SSH (22) - 본인 IP만 허용
 aws ec2 authorize-security-group-ingress --group-id $SG_ID --protocol tcp --port 22 --cidr ${MY_IP}/32
+{
+    "Return": true,
+    "SecurityGroupRules": [
+        {
+            "SecurityGroupRuleId": "sgr-00e04f628da57bfaa",
+            "GroupId": "sg-0717498e423f9232f",
+            "GroupOwnerId": "018272776176",
+            "IsEgress": false,
+            "IpProtocol": "tcp",
+            "FromPort": 22,
+            "ToPort": 22,
+            "CidrIpv4": "121.135.181.35/32",
+            "SecurityGroupRuleArn": "arn:aws:ec2:ap-northeast-2:018272776176:security-group-rule/sgr-00e04f628da57bfaa"
+        }
+    ]
+}
 
-```
+
+
+```  
+  
 
 
 
+  
 ```
 
 # ED25519 키 페어 생성
