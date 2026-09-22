@@ -263,15 +263,16 @@ Commercial support is available at
 <img width="734" height="433" alt="스크린샷 2026-09-19 오전 12 55 05" src="https://github.com/user-attachments/assets/09b36d23-07b8-43ae-b566-26a38bf7fd03" />   
 
 
-<img width="844" height="623" alt="스크린샷 2026-09-19 오전 12 58 02" src="https://github.com/user-attachments/assets/deabb1d6-4d58-4c59-b8be-68380c6d338c" />  
+<img width="632" height="546" alt="스크린샷 2026-09-22 오후 10 47 15" src="https://github.com/user-attachments/assets/de335b99-6df7-4290-9857-efa9402bee46" />
 
 
 
 (A) 브라우저로 http://<퍼블릭IP> 접속    
 http://3.34.191.0   
 http://43.203.120.39  
-<img width="632" height="546" alt="스크린샷 2026-09-22 오후 10 47 15" src="https://github.com/user-attachments/assets/de335b99-6df7-4290-9857-efa9402bee46" />
 
+
+<img width="844" height="623" alt="스크린샷 2026-09-19 오전 12 58 02" src="https://github.com/user-attachments/assets/deabb1d6-4d58-4c59-b8be-68380c6d338c" />  
 
 <img width="811" height="447" alt="스크린샷 2026-09-22 오후 10 55 33" src="https://github.com/user-attachments/assets/a1680578-bb4f-4df0-a33e-316ac765453a" />
 
