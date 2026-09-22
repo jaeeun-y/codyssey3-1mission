@@ -198,7 +198,7 @@ sudo apt install nginx -y
 # Nginx 실행 및 자동 시작 등록
 sudo systemctl start nginx
 sudo systemctl enable nginx
-
+  
 # [과제 요구사항 검증 1] EC2 내부 로컬 접속 확인 (200 응답 확인)
 curl -I http://localhost
 
@@ -207,20 +207,20 @@ curl -I https://naver.com
 
 
 ```
-
-
-
+  
+  
+  
 [과제 요구사항 검증 1] EC2 내부 로컬 접속 확인
 <img width="742" height="144" alt="스크린샷 2026-09-22 오후 10 50 29" src="https://github.com/user-attachments/assets/e57a0c9d-e469-4a66-8142-cfdfef81a9e2" />
-
-
-
+  
+  
+  
 [과제 요구사항 검증 2] 외부 아웃바운드 인터넷 통신 확인
 <img width="745" height="157" alt="스크린샷 2026-09-22 오후 10 50 04" src="https://github.com/user-attachments/assets/0969faeb-2f78-43c1-a7ed-3ad97e2c2288" />
-
-
-
-____
+  
+  
+  
+____ 
 
 https://app.diagrams.net/  
   
@@ -261,21 +261,21 @@ Commercial support is available at
 
 
 <img width="734" height="433" alt="스크린샷 2026-09-19 오전 12 55 05" src="https://github.com/user-attachments/assets/09b36d23-07b8-43ae-b566-26a38bf7fd03" />   
-
-
-<img width="632" height="546" alt="스크린샷 2026-09-22 오후 10 47 15" src="https://github.com/user-attachments/assets/de335b99-6df7-4290-9857-efa9402bee46" />
-
-
-
+  
+  
+  
+  
+  
+  
 (A) 브라우저로 http://<퍼블릭IP> 접속    
 http://3.34.191.0   
 http://43.203.120.39  
-
-
+  
+  
 <img width="844" height="623" alt="스크린샷 2026-09-19 오전 12 58 02" src="https://github.com/user-attachments/assets/deabb1d6-4d58-4c59-b8be-68380c6d338c" />  
-
+  
 <img width="811" height="447" alt="스크린샷 2026-09-22 오후 10 55 33" src="https://github.com/user-attachments/assets/a1680578-bb4f-4df0-a33e-316ac765453a" />
-
+  
 
 
 
