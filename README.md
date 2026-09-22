@@ -141,8 +141,18 @@ chmod 400 ec2-key.pem
 SUBNET_ID="subnet-06320370147d23e9f"
 
 
-# Ubuntu 22.04 LTS 최신 AMI ID 자동 가져오기
+# Ubuntu 22.04 LTS 최신 AMI ID 자동 가져오기 (트러블 슈팅)
 AMI_ID=$(aws ssm get-parameters --names /aws/service/canonical/ubuntu/server/22.04/stable/current/amd64/hvm/ebs-gp2/ami-id --query "Parameters[0].Value" --output text)
+
+# E2C 전용 명령어로 AMI ID 가져오기 (대체)
+AMI_ID=$(aws ec2 describe-images \
+  --owners 099720109477 \
+  --filters "Name=name,Values=ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*" "Name=state,Values=available" \
+  --query "reverse(sort_by(Images, &CreationDate))[0].ImageId" \
+  --output text)
+
+echo "조회된 Ubuntu AMI ID: $AMI_ID"
+조회된 Ubuntu AMI ID: ami-0621cf8f7a0902253
 
 
 # EC2 인스턴스 시작
@@ -157,12 +167,14 @@ INSTANCE_ID=$(aws ec2 run-instances \
   --query 'Instances[0].InstanceId' --output text)
 
 echo "생성된 EC2 인스턴스 ID: $INSTANCE_ID"
+생성된 EC2 인스턴스 ID: i-0711e55eda37b7b97  
 
 
 # EC2 인스턴스가 running 상태가 될 때까지 10~20초 대기 후 실행
 PUBLIC_IP=$(aws ec2 describe-instances --instance-ids $INSTANCE_ID --query 'Reservations[0].Instances[0].PublicIpAddress' --output text)
 
 echo "EC2 퍼블릭 IP: $PUBLIC_IP"
+EC2 퍼블릭 IP: 43.203.120.39  
 
 
 # SSH 접속 (터미널에서 입력)
@@ -170,6 +182,9 @@ ssh -i ec2-key.pem ubuntu@$PUBLIC_IP
 
 
 ```
+
+
+<img width="632" height="546" alt="스크린샷 2026-09-22 오후 10 47 15" src="https://github.com/user-attachments/assets/3cf6a608-3501-47c5-a810-dcf1c1e9cf42" />
 
 
 
@@ -188,11 +203,20 @@ sudo systemctl enable nginx
 curl -I http://localhost
 
 # [과제 요구사항 검증 2] 외부 아웃바운드 인터넷 통신 확인
-curl -I https://example.com
+curl -I https://naver.com
 
 
 ```
 
+
+
+[과제 요구사항 검증 1] EC2 내부 로컬 접속 확인
+<img width="742" height="144" alt="스크린샷 2026-09-22 오후 10 50 29" src="https://github.com/user-attachments/assets/e57a0c9d-e469-4a66-8142-cfdfef81a9e2" />
+
+
+
+[과제 요구사항 검증 2] 외부 아웃바운드 인터넷 통신 확인
+<img width="745" height="157" alt="스크린샷 2026-09-22 오후 10 50 04" src="https://github.com/user-attachments/assets/0969faeb-2f78-43c1-a7ed-3ad97e2c2288" />
 
 
 
@@ -236,21 +260,21 @@ Commercial support is available at
 
 
 
-<img width="734" height="433" alt="스크린샷 2026-09-19 오전 12 55 05" src="https://github.com/user-attachments/assets/09b36d23-07b8-43ae-b566-26a38bf7fd03" />  
-
-
-
-<img width="1105" height="118" alt="스크린샷 2026-09-19 오전 12 56 30" src="https://github.com/user-attachments/assets/6286c9de-fa6e-4c7a-9a55-a8d50d76e8cc" />  
-
+<img width="734" height="433" alt="스크린샷 2026-09-19 오전 12 55 05" src="https://github.com/user-attachments/assets/09b36d23-07b8-43ae-b566-26a38bf7fd03" />   
 
 
 <img width="844" height="623" alt="스크린샷 2026-09-19 오전 12 58 02" src="https://github.com/user-attachments/assets/deabb1d6-4d58-4c59-b8be-68380c6d338c" />  
 
-(A) 브라우저로 http://<퍼블릭IP> 접속   
-http://3.34.191.0  
 
 
-<img width="793" height="466" alt="스크린샷 2026-09-19 오전 1 33 39" src="https://github.com/user-attachments/assets/86bf38e8-405b-4b95-84b3-de6a379692aa" />
+(A) 브라우저로 http://<퍼블릭IP> 접속    
+http://3.34.191.0   
+http://43.203.120.39  
+<img width="632" height="546" alt="스크린샷 2026-09-22 오후 10 47 15" src="https://github.com/user-attachments/assets/de335b99-6df7-4290-9857-efa9402bee46" />
+
+
+<img width="811" height="447" alt="스크린샷 2026-09-22 오후 10 55 33" src="https://github.com/user-attachments/assets/a1680578-bb4f-4df0-a33e-316ac765453a" />
+
 
 
 
