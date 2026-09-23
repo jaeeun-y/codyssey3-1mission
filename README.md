@@ -210,12 +210,11 @@ curl -I https://naver.com
   
   
 [과제 요구사항 검증 1] EC2 내부 로컬 접속 확인
-<img width="742" height="144" alt="스크린샷 2026-09-22 오후 10 50 29" src="https://github.com/user-attachments/assets/e57a0c9d-e469-4a66-8142-cfdfef81a9e2" />
-  
+<img width="745" height="157" alt="스크린샷 2026-09-22 오후 10 50 04" src="https://github.com/user-attachments/assets/0969faeb-2f78-43c1-a7ed-3ad97e2c2288" />
   
   
 [과제 요구사항 검증 2] 외부 아웃바운드 인터넷 통신 확인
-<img width="745" height="157" alt="스크린샷 2026-09-22 오후 10 50 04" src="https://github.com/user-attachments/assets/0969faeb-2f78-43c1-a7ed-3ad97e2c2288" />
+<img width="742" height="144" alt="스크린샷 2026-09-22 오후 10 50 29" src="https://github.com/user-attachments/assets/e57a0c9d-e469-4a66-8142-cfdfef81a9e2" />
   
   
   
